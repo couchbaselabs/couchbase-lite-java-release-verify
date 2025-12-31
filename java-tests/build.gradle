@@ -1,0 +1,35 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.example.cblverify'
+version = '1.0'
+
+sourceCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_11
+
+repositories {
+    mavenCentral()
+    maven {
+        url "https://mobile.maven.couchbase.com/maven2/dev"
+    }
+}
+
+def cblVersion = (findProperty("cblVersion") ?: "4.0.2").toString()
+def cblArtifact = (findProperty("cblArtifact") ?: "couchbase-lite-java-ee").toString()
+
+dependencies {
+    implementation "com.couchbase.lite:${cblArtifact}:${cblVersion}"
+    
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.1'
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+        exceptionFormat "full"
+        showStandardStreams = true
+    }
+}
