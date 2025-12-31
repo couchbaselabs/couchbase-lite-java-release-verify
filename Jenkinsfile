@@ -11,12 +11,12 @@ pipeline {
   }
 
   stages {
-    stage('Verify + Run tests') {
+    stage('Verify Java release') {
       parallel {
         stage('macOS') {
           agent { label 'mob-e2e-mac-01' }
           stages {
-            stage('Verify') {
+            stage('Download macOS artifacts') {
               steps {
                 checkout scm
                 sh '''
@@ -26,7 +26,7 @@ pipeline {
                 '''
               }
             }
-            stage('Tests') {
+            stage('Run macOS tests') {
               steps {
                 sh '''
                   set -euo pipefail
@@ -41,7 +41,7 @@ pipeline {
         stage('Debian') {
           agent { label 'mob-e2e-deb-01' }
           stages {
-            stage('Verify') {
+            stage('Download Debian artifacts') {
               steps {
                 checkout scm
                 sh '''
@@ -51,7 +51,7 @@ pipeline {
                 '''
               }
             }
-            stage('Tests') {
+            stage('Run Debian tests') {
               steps {
                 sh '''
                   set -euo pipefail
@@ -66,7 +66,7 @@ pipeline {
         stage('Windows') {
           agent { label 'mob-e2e-win-01' }
           stages {
-            stage('Verify') {
+            stage('Download Windows artifacts') {
               steps {
                 checkout scm
                 powershell '''
@@ -75,7 +75,7 @@ pipeline {
                 '''
               }
             }
-            stage('Tests') {
+            stage('Run Windows tests') {
               steps {
                 powershell '''
                   $ErrorActionPreference = "Stop"

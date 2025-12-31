@@ -1,27 +1,15 @@
-<#  verify_java_windows.ps1
+<#  verify_download.ps1
     Usage:
-      powershell -ExecutionPolicy Bypass -File .\verify_java_windows.ps1 -Version 4.0.2 [-Artifact couchbase-lite-java-ee]
+      powershell -ExecutionPolicy Bypass -File .\verify_download.ps1 -Version 3.2.1
 #>
 
 [CmdletBinding()]
 param(
   [Parameter(Mandatory = $true)]
-  [string] $Version,
-
-  [Parameter(Mandatory = $false)]
-  [string] $Artifact = "couchbase-lite-java-ee"
+  [string] $Version
 )
 
 $ErrorActionPreference = 'Stop'
-
-Write-Host "======================================" -ForegroundColor Cyan
-Write-Host "Couchbase Lite Java Verification" -ForegroundColor Cyan
-Write-Host "======================================" -ForegroundColor Cyan
-Write-Host "Version: $Version"
-Write-Host "Artifact: $Artifact"
-Write-Host "Platform: Windows"
-Write-Host "======================================" -ForegroundColor Cyan
-Write-Host ""
 
 $CENTRAL_BASE = "https://repo1.maven.org/maven2"
 $EE_BASE      = "https://mobile.maven.couchbase.com/maven2/dev"
@@ -90,9 +78,6 @@ $workDir = New-TempDir
 $outDir  = Join-Path $workDir "cbl-downloads"
 
 try {
-  Write-Host "Step 1: Downloading and verifying artifacts..." -ForegroundColor Yellow
-  Write-Host ""
-
   foreach ($a in $COMMUNITY) {
     Download-One -RepoBase $CENTRAL_BASE -Artifact $a -Version $Version -Dest (Join-Path $outDir "community")
   }
@@ -101,4 +86,10 @@ try {
     Download-One -RepoBase $EE_BASE -Artifact $a -Version $Version -Dest (Join-Path $outDir "enterprise")
   }
 
-  Write-Host "All artifacts downloaded successfully" -ForegroundColor Green
+  Write-Host "OK: all artifacts downloaded for version $Version (temp dir will be deleted): $outDir"
+}
+finally {
+  if (Test-Path -LiteralPath $workDir) {
+    Remove-Item -LiteralPath $workDir -Recurse -Force
+  }
+}
