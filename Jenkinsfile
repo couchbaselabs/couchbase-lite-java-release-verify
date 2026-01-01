@@ -49,9 +49,11 @@ pipeline {
           steps {
             checkout scm
             sh '''
+            bash -lc '
               set -euo pipefail
               chmod +x verify_java_debian.sh
               ./verify_java_debian.sh "$CBL_VERSION"
+              '
             '''
           }
         }
@@ -62,9 +64,11 @@ pipeline {
           }
           steps {
             sh '''
+            bash -lc '
               set -euo pipefail
               chmod +x run_tests_debian.sh
               ./run_tests_debian.sh "$CBL_VERSION"
+              '
             '''
           }
         }
