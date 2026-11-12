@@ -32,6 +32,7 @@ fi
 # Run tests
 ./gradlew clean test \
   --no-daemon \
+  --refresh-dependencies \
   -PcblVersion="$VERSION" \
   -PcblArtifact="$ARTIFACT"
 
