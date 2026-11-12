@@ -22,7 +22,7 @@ if (-not (Test-Path $gradlewCmd)) {
     throw "Gradle wrapper not found at $gradlewCmd"
 }
 
-& $gradlewCmd clean test --no-daemon -PcblVersion="$Version" -PcblArtifact="$Artifact"
+& $gradlewCmd clean test --no-daemon --refresh-dependencies -PcblVersion="$Version" -PcblArtifact="$Artifact"
 
 if ($LASTEXITCODE -ne 0) {
     throw "Gradle tests failed with exit code $LASTEXITCODE"
