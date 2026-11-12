@@ -1,3 +1,15 @@
+<#  run_tests_windows.ps1
+    Usage:
+      powershell -ExecutionPolicy Bypass -File .\run_tests_windows.ps1 -Version 4.1.3 [-Artifact couchbase-lite-java-ee]
+#>
+
+[CmdletBinding()]
+param(
+  [Parameter(Mandatory = $true)]
+  [string] $Version,
+  [string] $Artifact = "couchbase-lite-java-ee"
+)
+
 # Step 2: Run Java tests
 Write-Host "Step 2: Running Java verification tests..." -ForegroundColor Yellow
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path

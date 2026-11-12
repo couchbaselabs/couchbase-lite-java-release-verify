@@ -1,3 +1,11 @@
+#!/usr/bin/env bash
+# run_tests.sh - Run the Java verification tests
+# Usage: ./run_tests.sh <version> [artifact]
+set -euo pipefail
+
+VERSION="${1:?Usage: $0 <version> [artifact]}"
+ARTIFACT="${2:-couchbase-lite-java-ee}"
+
 # Step 2: Run Java tests
 echo ""
 echo "Step 2: Running Java verification tests..."

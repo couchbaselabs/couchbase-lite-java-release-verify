@@ -15,7 +15,10 @@ repositories {
     }
 }
 
-def cblVersion = (findProperty("cblVersion") ?: "4.0.2").toString()
+def cblVersion = findProperty("cblVersion")?.toString()
+if (!cblVersion) {
+    throw new GradleException("Set the Couchbase Lite version with -PcblVersion=<version>")
+}
 def cblArtifact = (findProperty("cblArtifact") ?: "couchbase-lite-java-ee").toString()
 
 dependencies {
